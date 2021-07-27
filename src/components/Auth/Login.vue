@@ -20,7 +20,7 @@
           </form>
           <button class="btn btn-outline-primary float-md-right"
                   type="submit"
-                  @click.prevent="">
+                  @click.prevent="submit">
             Login
           </button>
         </div>
@@ -30,6 +30,7 @@
 </template>
 
 <script>
+import axios from "axios";
 
 export default {
   name: "Login",
@@ -39,6 +40,15 @@ export default {
     }
   },
   methods: {
+    submit() {
+      axios.post('auth/login',
+          this.user
+      ).then(res =>{
+        console.log(res);
+      }).catch((errors)=>{
+        console.log(errors)
+      })
+    }
   }
 }
 </script>
