@@ -44,7 +44,9 @@ export default {
       login: 'Auth/login'
     }),
     submit() {
-      this.login(this.user);
+      this.login(this.user).then(() => {
+        this.$router.replace({name: 'products'})
+      });
     }
   }
 }
