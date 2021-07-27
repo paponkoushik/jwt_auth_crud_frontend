@@ -30,7 +30,7 @@
 </template>
 
 <script>
-import axios from "axios";
+import {mapActions} from 'vuex';
 
 export default {
   name: "Login",
@@ -40,19 +40,12 @@ export default {
     }
   },
   methods: {
+    ...mapActions({
+      login: 'Auth/login'
+    }),
     submit() {
-      axios.post('auth/login',
-          this.user
-      ).then(res =>{
-        console.log(res);
-      }).catch((errors)=>{
-        console.log(errors)
-      })
+      this.login(this.user);
     }
   }
 }
 </script>
-
-<style scoped>
-
-</style>
