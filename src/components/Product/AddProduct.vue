@@ -6,12 +6,6 @@
       </div>
       <div class="card">
         <div class="card-header text-center">Add Product</div>
-<!--        <div class="mb-2" v-if="errors.length">-->
-<!--          <b>Please correct the following error(s):</b>-->
-<!--          <ul>-->
-<!--            <li v-for="(error, index) in errors" :key="index">{{ error }}</li>-->
-<!--          </ul>-->
-<!--        </div>-->
         <div class="card-body">
           <form>
             <div class="form-group row">
