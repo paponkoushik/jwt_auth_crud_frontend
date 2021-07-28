@@ -37,7 +37,7 @@
 <!--              </div>-->
 <!--            </div>-->
             <div class="form-group">
-              <button class="btn btn-outline-primary" @click.prevent="submit">Save</button>
+              <button class="btn btn-outline-primary float-right" @click.prevent="submit">Save</button>
             </div>
           </form>
 
