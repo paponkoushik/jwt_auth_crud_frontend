@@ -9,9 +9,9 @@
           <template v-if="authenticated">
             <router-link :to="{ name: 'products'}" class="nav-item nav-link">Products</router-link>
             <router-link :to="{ name: 'add_product'}" class="nav-item nav-link">Add Product</router-link>
-            <a href="#" class="nav-item nav-link">Logout</a>
+            <a href="#" class="nav-item nav-link" @click.prevent="logout">Logout</a>
           </template>
-          <template>
+          <template v-else>
             <router-link :to="{ name: 'login'}"></router-link>
           </template>
         </div>
@@ -21,7 +21,7 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
+import { mapGetters, mapActions } from 'vuex';
 export default {
   name: "Navigation",
   computed: {
@@ -29,6 +29,19 @@ export default {
       authenticated: 'Auth/authenticated',
       user: 'Auth/user'
     })
+  },
+  methods: {
+    ...mapActions({
+      logoutAction: 'Auth/logout'
+    }),
+
+    logout() {
+      this.logoutAction().then(() => {
+        this.$router.replace({
+          name: 'login'
+        })
+      });
+    }
   }
 }
 </script>

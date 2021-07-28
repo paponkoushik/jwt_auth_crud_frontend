@@ -7,8 +7,8 @@ export default {
         user: null,
     },
     getters: {
-        authenticated() {
-
+        authenticated(state) {
+            return state.token;
         },
 
         user(state) {
@@ -30,9 +30,16 @@ export default {
             return dispatch('attempt', response.data.token);
         },
 
-        async attempt({commit}, token) {
-            console.log(token);
-            commit('SET_TOKEN', token);
+        async attempt({commit, state}, token) {
+
+            if (token) {
+                commit('SET_TOKEN', token);
+            }
+
+            if (!state.token) {
+                return
+            }
+
 
             try {
                let user = await axios.get('auth/myself', {
@@ -43,8 +50,16 @@ export default {
                commit('SET_USER_INFO', user.data);
 
             }catch (e){
-                console.log('failed');
+                commit('SET_TOKEN', null)
+                commit('SET_USER_INFO', null)
             }
+        },
+
+        logout({commit}) {
+            return axios.post('auth/logout').then(() => {
+                commit('SET_TOKEN', null)
+                commit('SET_USER_INFO', null)
+            })
         }
     }
 }
