@@ -1,12 +1,12 @@
 <template>
   <div class="container">
     <div class="mt-5">
+      <div class="alert alert-success" role="alert" v-if="alert">
+        {{alert}}
+      </div>
       <div class="card">
         <div class="card-header text-center">Edit Product</div>
         <div class="card-body">
-          <div class="alert alert-success" role="alert" v-if="alert">
-            {{alert}}
-          </div>
           <form>
             <div class="form-group row">
               <label class="col-sm-2 col-form-label">Title</label>
@@ -34,6 +34,7 @@
               <label class="col-sm-2 col-form-label">Image</label>
               <div class="col-sm-10">
                 <input type="file" class="form-control-file" accept="image/*" placeholder="Description" @change="addImage" />
+                <small class="text-danger" v-if="errors.image">{{errors.image[0]}}</small>
               </div>
             </div>
             <div class="form-group">
@@ -48,7 +49,7 @@
 
 <script>
 import axios from "axios";
-// import {formDataAssigner} from "../../helpers/helper";
+import {formDataAssigner} from "../../helpers/helper";
 
 export default {
   name: "EditProduct",
@@ -56,7 +57,7 @@ export default {
     return {
       product: {},
       alert: '',
-      image: '',
+      image: null,
       errors: [],
     }
   },
@@ -71,13 +72,22 @@ export default {
       })
     },
     update() {
-      // let formData = formDataAssigner(new FormData, this.product);
 
-      // if (this.image) {
-      //   formData.append('image', this.image)
-      // }
+      let formData = {
+            title : this.product.title,
+            price : this.product.price,
+            description : this.product.description,
+          },
+          data = formDataAssigner(new FormData, formData)
 
-      axios.patch('product/update/' + this.product.id, this.product).then(({data}) => {
+      data.append('_method', 'patch');
+
+      if (this.image) {
+        data.append('image', this.image)
+      }
+
+      axios.post('product/update/' + this.product.id, data).then(({data}) => {
+
         this.alert = data;
 
         setTimeout(() => {

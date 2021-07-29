@@ -9,7 +9,7 @@ import axios from "axios";
 require('./store/subscriber');
 
 axios.defaults.baseURL = "http://localhost:8000/api";
-Vue.prototype.$appURL = "http://localhost:8000/"
+Vue.prototype.$appURL = "http://localhost:8000"
 
 Vue.use(VueRouter);
 

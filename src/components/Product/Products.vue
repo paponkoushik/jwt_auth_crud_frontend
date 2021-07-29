@@ -23,7 +23,7 @@
               <td>{{product.description}}</td>
               <td>{{product.price}}</td>
               <td>
-                <img v-if="product.image" :src="`${$appURL + product.image}`" width="80" height="50"/>
+                <img v-if="product.image" :src="`${$appURL + product.image}`" width="80" height="80"/>
               </td>
               <td>
                 <router-link :to="`/edit-products/${product.id}`" class="btn btn-outline-primary ml-2">Edit</router-link>
