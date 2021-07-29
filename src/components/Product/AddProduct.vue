@@ -30,12 +30,12 @@
                 <small class="text-danger" v-if="errors.price">{{errors.description[0]}}</small>
               </div>
             </div>
-<!--            <div class="form-group row">-->
-<!--              <label class="col-sm-2 col-form-label">Image</label>-->
-<!--              <div class="col-sm-10">-->
-<!--                <input type="file" class="form-control-file" accept="image/*" placeholder="Description" @change="addImage" />-->
-<!--              </div>-->
-<!--            </div>-->
+            <div class="form-group row">
+              <label class="col-sm-2 col-form-label">Image</label>
+              <div class="col-sm-10">
+                <input type="file" class="form-control-file" accept="image/*" placeholder="Description" @change="addImage" />
+              </div>
+            </div>
             <div class="form-group">
               <button class="btn btn-outline-primary float-right" @click.prevent="submit">Save</button>
             </div>
@@ -49,6 +49,7 @@
 
 <script>
 import axios from "axios";
+import {formDataAssigner} from "../../helpers/helper";
 
 export default {
   name: "AddProduct",
@@ -66,6 +67,12 @@ export default {
   },
   methods: {
     submit() {
+      let formData = formDataAssigner(this.product);
+
+      if (this.image) {
+        formData.append('image', this.image)
+      }
+
       axios.post('product/store', this.product).then(response => {
 
         this.alert = response.data;
@@ -79,6 +86,9 @@ export default {
       }).catch(({response}) =>{
         this.errors = response.data.errors;
       })
+    },
+    addImage(item) {
+      this.image = item.target.files[0];
     },
     resetForm() {
       this.product = {
